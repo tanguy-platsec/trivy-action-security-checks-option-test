@@ -1,0 +1,24 @@
+name: build and trivy
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  build-and-trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t ctnr-with-secrets:${{ github.sha }} .
+
+      - name: Run Trivy
+        uses: tanguy-platsec/trivy-action@enable-securitychecks-for-image
+        with:
+          image-ref: ctnr-with-secrets:${{ github.sha }}
+          format: table
+          severity: HIGH,CRITICAL
+          #security-checks: vuln
