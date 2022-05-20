@@ -19,6 +19,7 @@ jobs:
       - name: Run Trivy
         env:
           TRIVY_SECURITY_CHECKS: vuln
+          INPUT_SECURITY-CHECKS: vuln
         uses: tanguy-platsec/trivy-action@enable-securitychecks-for-image
         with:
           image-ref: ctnr-with-secrets:${{ github.sha }}
