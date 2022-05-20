@@ -1,6 +1,7 @@
 name: build and trivy
 
 on:
+  pull_request:
   push:
     branches:
       - 'master'
@@ -16,9 +17,11 @@ jobs:
           docker build -t ctnr-with-secrets:${{ github.sha }} .
 
       - name: Run Trivy
+        env:
+          TRIVY_SECURITY_CHECKS: vuln
         uses: tanguy-platsec/trivy-action@enable-securitychecks-for-image
         with:
           image-ref: ctnr-with-secrets:${{ github.sha }}
           format: table
           severity: HIGH,CRITICAL
-          security-checks: vuln
+          #security-checks: vuln

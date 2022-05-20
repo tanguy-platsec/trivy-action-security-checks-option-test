@@ -1,3 +1,3 @@
-FROM alpine:latest
+FROM alpine
 
-COPY rsa* /
+COPY *.yml /
